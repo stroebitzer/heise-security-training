@@ -1,67 +1,52 @@
-# Kubermatic Training
+# Kubernetes Fundamentals
 
-In this repo, you will find Kubermatic training materials.
+## Setup Training Environment
 
-## Overview
+1. Navigate and login to [Google Cloud Shell](https://ssh.cloud.google.com) via web browser.
+2. Clone the Kubermatic trainings git repository:`git clone https://github.com/cloudnativetrainings/trainings.git`
+3. Navigate to Kubernetes Fundamentals training folder to get started `cd trainings/kubernetes_security/`
 
-### Basic Path
+### Create Training VM
 
-#### Linux Fundamentals
+Open a new terminal tab.
 
-Learn the basics on how to work with Linux.
+> Ensure that the project is properly set.
 
-#### Container Fundamentals
+```bash
+# create the VM
+make setup
+```
 
-Learn the basics on how to work with Containers.
+## Verify Training Environment
 
-### Developer Path
+> Note that the VM will get setup via Cloud-Init which will take ~ 5 minutes for setting up everything.
 
-#### Kubernetes Fundamentals for Developers
+```bash
+# ssh into the new VM
+gcloud compute ssh root@kubernetes-security --zone europe-west3-a
 
-Learn the basics about Kubernetes and how to implement cloud native applications.
+# verify cloud-init finished successfully
+cat /var/log/cloud-init-output.log | grep "CloudInit Finished Successfully"
 
-#### Kubernetes Servicemesh
+# verify single node Kubernetes cluster
+kubectl get nodes
 
-Learn the feature set of a ServiceMesh.
+# verify bash completion is in place
+kubectl get node <TAB>
 
-#### Kubernetes Helm
+# verify that a single pod is running in the default namespace
+kubectl get pods
 
-Learn the basics about Helm to manage your Kubernetes applications. 
+# verify all tools got installed properly
+make verify
+```
 
-### Ops Path
+## Teardown Training Environment
 
-#### Kubernetes Fundamentals for Operators
+```bash
+# switch to the google cloud shell
+exit
 
-Learn the basics about Kubernetes and how to setup and operate Kubernetes.
-
-#### Advanced Operations of Kubernetes with KubeOne
-
-Learn about KubeOne - the open source Kubernetes cluster lifecycle management tool for a single cluster on any infrastructure.
-
-#### KKP Administration
-
-Learn how to setup and configure KKP.
-
-#### Kubernetes Security
-
-Learn how to secure a Kubernetes Cluster.
-
-## Installation
-
-We provide the installation instructions in the training subfolders. 
-
-## Contributing
-
-Thanks for taking the time to join our community and start contributing!
-
-### Before you start
-
-* Please familiarize yourself with the [Code of Conduct][4] before contributing.
-* See [CONTRIBUTING.md][2] for instructions on the developer certificate of origin that we require.
-
-### Pull requests
-
-* We welcome pull requests.
-
-[2]: https://github.com/kubermatic-labs/trainings/blob/master/CONTRIBUTING.md
-[4]: https://github.com/kubermatic-labs/trainings/blob/master/CODE_OF_CONDUCT.md
+# destroy environment
+make destroy
+```

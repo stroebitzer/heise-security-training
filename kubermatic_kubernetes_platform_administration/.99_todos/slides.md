@@ -1,1 +1,0 @@
-EE vs CE difference => at least link to it
